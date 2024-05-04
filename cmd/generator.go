@@ -48,23 +48,32 @@ func generatePassword(complexity string, length int) string {
 		length = 12
 		chars = lowerChars + upperChars + digitChars
 	case "medium":
+		length = 16
 		chars = lowerChars + upperChars + digitChars + symbolChars
 	case "high":
 		length = 24
 		chars = defaultChars
 	default:
-		fmt.Println("Invalid complexity level. Please choose low, medium or high.")
+		fmt.Println("Invalid complexity level. Please choose low, medium, high, or custom.")
 		os.Exit(1)
 	}
 
-	return generateRandomPassword(chars, length)
-}
-
-func generateRandomPassword(chars string, length int) string {
 	password := make([]byte, length)
-	for i := range password {
+	password[0] = lowerChars[rand.Intn(len(lowerChars))]
+	password[1] = upperChars[rand.Intn(len(upperChars))]
+	password[2] = digitChars[rand.Intn(len(digitChars))]
+
+	if complexity == "medium" || complexity == "high" {
+		password[3] = symbolChars[rand.Intn(len(symbolChars))]
+	}
+
+	for i := 4; i < length; i++ {
 		password[i] = chars[rand.Intn(len(chars))]
 	}
+
+	rand.Shuffle(len(password), func(i, j int) {
+		password[i], password[j] = password[j], password[i]
+	})
 
 	return string(password)
 }
