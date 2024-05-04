@@ -29,20 +29,16 @@ var generateCmd = &cobra.Command{
 	Long:  `Generate a new random password`,
 	Run: func(cmd *cobra.Command, args []string) {
 		complexity, _ := cmd.Flags().GetString("complexity")
-		length, _ := cmd.Flags().GetInt("length")
 
-		if length <= 0 {
-			fmt.Println("Password length must be greater than 0")
-			os.Exit(1)
-		}
-
-		password := generatePassword(complexity, length)
+		password := generatePassword(complexity)
 		fmt.Println(password)
 	},
 }
 
-func generatePassword(complexity string, length int) string {
+func generatePassword(complexity string) string {
 	var chars string
+	var length int
+
 	switch complexity {
 	case "low":
 		length = 12
