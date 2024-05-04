@@ -17,7 +17,7 @@ func TestPasswordLength(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.complexity, func(t *testing.T) {
-			password := generatePassword(tc.complexity, 16)
+			password := generatePassword(tc.complexity)
 
 			if len(password) != tc.expectedLength {
 				t.Errorf("Expected password length %d for complexity %s, but got length %d", tc.expectedLength, tc.complexity, len(password))
